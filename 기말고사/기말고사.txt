@@ -1,0 +1,880 @@
+1주차
+******************************************************************************************
+1. C++ advantage, disadvantage
+- advantage
+Performance: 빠르다.
+Closer to hardware
+Object-oriented
+
+- disadvantage
+memory unsafe: pointer사용함
+hard to debug
+
+
+2. Characteristics of OOP
+Encapsulation: private, public, protected
+inheritance: 상속
+polymorphism: overloading, overriding
+abstraction: ADT form
+
+
+3. c: top-down c++: bottom-up
+c: procedural c++: object oriented
+******************************************************************************************
+
+2주차
+******************************************************************************************
+4. initialization
+double mpg = 26.3
+double mpg(26.3)
+
+
+5. cout지정
+cout.setf(ios::fixed)
+cout.setf(ios::scientific)
+cout.precision(2)
+
+
+
+6. Auto
+auto x = 78.51; // x becomes a double
+auto x = 78; // x becomes int
+
+
+7. enum(열거형), 값을 넣어주지 않으면 0부터 시작한다. 한개넣으면 그 다음은 1씩 증가함
+enum MonthLength{
+	JAN_LENGTH = 31,
+	FEB_LENGTH = 28,
+	MAR_LENGTH = 31,
+	...
+	DEC_LENGTH = 31
+};
+enum class Days {Sun, Mon, Tue, Wed};
+Days d = Days::Tue;
+
+
+7. string
+#include<string>
+string name = "asdf bwbfbwaef";
+
+
+8. git
+git init
+git add .
+git commit -m "컴밋내용"
+git push origin(?) [업로드할 브랜치]
+git log --graph --all
+
+******************************************************************************************
+
+3주차
+******************************************************************************************
+9. predefined fuction
+sqrt(4.0) -> cmath
+pow(2.0,3.0) -> cmath
+abs(9) -> cstdlib
+labs(-70000000000) -> cstdlib
+fabs(-812.32) -> cmath
+ceil(3.2) -> cmath
+floor(3.2) -> cmath
+srand(time(0)) -> cstdlib
+rand() -> cstdlib
+
+
+10. 프로그램의 가독성을 위해 if statement안을 함수로 정의할 수 있다.
+
+
+11. overloading
+more than one definition for the same function name
+
+
+12. call-by-reference parameters(포인터와 비슷)
+void function(int& a)
+{
+	a = 10;
+	return;
+}
+
+
+13. stubs
+함수가 완료되기 전 간단한 함수를 만들어놓는다.
+
+
+14. assert(1) <- true가 아닌 경우에 종료
+#include <cassert>
+
+
+15. makefile
+CC = g++
+CFLAGS = -O2
+TARGET = calc
+OBJS = main.o adder.o multiplier.o 
+
+$(TARGET) : $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $^
+
+adder.o : adder.cpp
+	$(CC) $(CFLAGS) -c $<
+multiplier.o : multiplier.cpp
+	$(CC) $(CFLAGS) -c $<
+main.o : main.cpp
+	$(CC) $(CFLAGS) -c $<
+
+# this pattern can replace as
+# %.o : %.cpp
+# 	$(CC) $(CFLAGS) -c $<
+#"$@” : 현재 타겟의 이름
+#“$^” : 현재 타겟의 종속 항목 리스트
+
+clean :
+	rm -f *.o calc
+
+
+15. argc/argv
+int main(int argc, char **argv)
+
+******************************************************************************************
+
+4주차
+******************************************************************************************
+16. ifstream
+#include <fstream>
+ifstream inStream;
+ofstream outStream;
+(input output stream)
+
+inStream.open("infile.dat"); <-open file
+outStream.open("outfile.dat");
+int f, s, t;
+inStream >> f >> s >> t;
+outStream << "first second third : " << (first+second+third);
+
+
+17. formatting
+cout과 마찬가지로 setf, precision쓰기 가능
+outStream.setf(ios::fixed);
+outStream.setf(ios::showpoint); -> 0이어도 보이게 함
+outStream.precision(2);
+outStream.width(4);
+
+cout.unsetf(ios::showpos);
+
+
+18. setw(), setprecision()
+#include <iomanip>
+using namespace std;
+
+cout << "Start" << setw(4) <<10 << setw(4) << 20;
+cout.setf(ios::fixed);
+cout.setf(ios::showpoint);
+cout << "$" << setprecision(2) << 10.3 <<endl;
+
+
+19. end of file
+double next, sum = 0;
+int count = 0;
+while(inStream >> next){
+	sum = sum + next;
+	count++;
+}
+double average = sum / count;
+
+
+20. character I/O
+get()
+Does not skip blanks and '\n'
+inputSteram.get(charVariable);
+
+cout<<"Enter a line of input and I will "<< "echo it.\n";
+char symbol;
+do{
+	cin.get(symbol);
+	cout<< symbol;
+} while (symbol != '\n’);
+
+put()
+cout.put(nextSymbol);
+cout.put('a');
+ofstream outStream;
+outStream.open("outfile.dat");
+outStream.put('Z'); 
+
+
+21. eof
+!inStream.eof()로 확인 가능
+
+
+22. function
+void newLine(istream& inStream){
+	char symbol;
+	do{ 
+		inStream.get(symbol);
+	} while (symbol != '\n');
+}
+newLine(cin);   // newLine();
+ifstreamfin;
+fin.open(“test.txt”);newLine(fin);    // called with an input-file stream
+******************************************************************************************
+
+
+5주차
+******************************************************************************************
+23. Range-Based For Loops
+int arr[ ] = {2, 4, 6, 8};
+for (auto x : arr)
+	cout<< x;
+
+int arr[ ] = {2, 4, 6, 8};
+for (auto& x : arr)
+	x++;
+
+24. function calls with array
+void fillUp(int a[], int size);
+
+int score[5], numberOfScores;
+fillUp(score, numberOfScores);
+
+
+25. const Modifier
+void showDifference(const int a[], int size)
+{
+	double average = computeAverage(a, size);
+}
+-> 에러발생, computeAverage에서 a를 바꿀 수 있으므로
+
+
+26. multi-dimensional array
+void displayPage(const char page[][100], int size	Dimension1);
+2번째 인자는 있어야됨
+
+
+27. cstring
+strcpy(dst, src);
+strcmp(s1, s2); <- 0 same
+strlen();
+strcat(dst, src); <- string붙이기
+
+
+28. getline()
+char a[80];
+cout<< "Enter input:\n";
+cin.getline(a, 80);
+cout<< a << End Of Output\n";
+
+
+29. c string to number 
+#include <cstdlib>
+atoi("1234") <- 만약 숫자가 아니라면 0을 return
+atof()도 가능
+
+
+30. String class
+#include <string>
+std::string s1 = "abc";
+
++사용가능, cin, cout도 가능
+s3 = s1+s2;
+
+- getlline example
+std::getline(std::cin, line);
+std::getline(std::cin, line, '?'); <- ?오기전까지 읽는다.
+
+- string length
+s1.length();
+
+- at 메서드 valid하지 않으면 exception날림
+str[2] = 'X';
+str.at(2) = 'X';
+
+- ==, >, <로 비교 가능
+
+- stoi, stod로 int double로 변형 가능
+
+- to_string()
+string s = to_string(1.2*2); 
+
+- c_str()
+stringVariable.c_str();로 strcpy와 같은 c함수 사용 가능
+
+- find()
+
+
+31. vectors
+ex) std::vector<int> v;
+- push_back(1); <- 뒤에 1의 값 삽입
+- front(); <- 앞의 '값'
+- back(); <- 뒤의 '값'
+- a.insert(a.begin()+2,3); <- 2번째 위치에 3의 값을 삽입한다.
+- pop_back(); <- 뒤의 값 지우기
+- begin(); <- 첫번째 iterator를 return
+- end(); <- 마지막 iterator를 return
+
+- iterator 예제
+for (vector<int>::iterator it = sample.begin(); it != sample.end(); it++)
+	cout<< *it << endl;
+
+- size()로 size 측정 가능, capacity()는 몇개의 element가 할당되어 있는지를 나타낸다.
+- vector<int> v(10);으로 10개 할당가능, 0으로 다 초기화됨
+push_back을 하면 index 10부터 들어감
+
+- reserve -> vector의 capacity를 늘려준다. v.reserve(32);
+- resize -> vector의 size를 늘려줌, v.resize(24, 0); -> 24개의 element 0으로 초기화
+******************************************************************************************
+
+
+6주차
+******************************************************************************************
+32. '::' and '.'
+void DayOfYear::output() { //function body }
+DayOfYear birthday;
+birthday.output();
+
+
+33. 객체가 가진 고유의 멤버 변수값들이 외부에서 잘못 변경되는 것을 막기 위해서입니다.
+사전에 멤버 변수와 함수들의 성격을 규정하고 차단함으로써 의도치 않은 실수를
+줄이기 위한 의도가 깔려 있습니다.
+
+
+34.
+Accessor (getter) functions
+Mutator (setter) functions
+
+
+35. = operator
+DayOfYear dueDate, tomorrow;
+tomorrow.set(11, 19);
+dueDate= tomorrow;
+
+
+36. Default Constructor
+BankAccount account1;
+
+
+37. initialization sections
+BankAccount::BankAccount( ): balance(0), interestRate(0.0) { // No code needed in this example }
+
+
+38. C++ member initialization
+class Coordinate{
+	private:
+		int x=1;
+		int y=2;
+}; 
+
+
+38. Constructor Delegation
+Coordinate::Coordinate() : Coordinate(99,99){ }
+
+
+39. Abstract Data Type(ADT form)
+선언과 정의를 분리
+
+******************************************************************************************
+
+
+7주차
+******************************************************************************************
+
+40. friend
+A class can allow another classor function to access its nonpublic members
+by making that class or function a friend
+class a, b, c;
+c = f(a,b);
+만약 equal function을 쓴다고 하면 getter 함수로 받아 비교해야하지만
+friend는 private변수를 직접 접근 가능해서 바로 비교 가능하다.
+
+
+41. friend 함수 사용법
+class DayOfYear{
+	public:
+		friend bool equal(DayOfYeardate1, DayOfYeardate2);
+		// The rest of the public members
+	private:
+		// the private members
+};
+
+
+42. class를 넘겨줄 때 일반적으로 call-by-reference를 사용한다.
+why? call-by-value로 넘겨주면 복사하는데 시간이 너무 많이 걸리기 때문
+Money add(const Money& amount1, const Money& amount2){
+	amount1.output(cout);
+} <- error 띄움, output(cout)이 바꿀수도 있어서
+
+class Money{
+	public:
+		void output (ostream& outs) const; <- 바꿔주지 않음을 명시적으로 기술
+}
+
+void Money::output(ostream& outs) const {
+	// output statements
+}
+
+
+43. friend class
+#include <iostream>
+class A {
+private:
+	int a;
+public:
+	A() { a = 0; }
+	friend class B;
+};
+
+class B {
+private:
+	int b;
+public:
+	void showA(A& x)
+	{
+		std::cout<< "A::a=" << x.a;
+	}
+};
+
+int main(){
+	A a;
+	B b;
+	b.showA(a);
+	return 0;
+}
+
+
+44. operator overloading
+class Money
+{
+public:
+	Money operator +(Money rhs);
+	or..
+	friend Money operator +(const Money& amount1, const Money& amount2);
+private:
+	dallar;
+}
+
+Money Money::operator +(Money rhs)
+{
+	Money tmp;
+	return tmp;
+}
+
+Money operator +(const Money& amount1, const Money& amount2)
+{
+	Money tmp;
+	return tmp;
+}
+
+- <<는 class의 reference를 return한다.
+friend ostream& operator <<(ostream& outs, const money& amount);
+
+- automatic type conversion
+baseAmount + 25는 다음과 같은 함수가 있을 때 이를 따른다.
+friend Money operator +(const Money& amount1, const int& amount2);
+
+baseAmount + 25.67을 할 때
+class Money
+{
+public:
+	Money(double amount);
+}
+와 같은 constructor가 있을 때, 이를 사용하여 계산한다.
+
+- Operator +=사용법
+Money& Money::operator+=(const Money& amount2)
+{
+	this->all_cents = this->all_cents + amount2.all_cents;
+	return *this;
+}
+Amount1 += Amount2 += Amount3;와 같은 연산이 가능하게 하기 위해
+
+******************************************************************************************
+
+
+8주차
+******************************************************************************************
+45. array of object
+void main()
+{
+	MyClass obs[4]; <- default constructor가 정의되어 있어야 함
+	int i;
+
+	for(i=0;i<4;i++)
+		obs[i] = MyClass(i, i); <- constructor호출 가능
+
+}
+
+배열의 동적할당
+Circle *p = new Circle[3];
+******************************************************************************************
+
+
+9주차
+******************************************************************************************
+46. new and delete operators
+- new operators
+int *a = new int;
+int *a = new int(10);	//allocate and initialize it
+float *q = new float(10.10);	//allocate and initialize it
+
+delete a, q;
+
+
+47. new and class types
+MyType *myPtr;
+myPtr = new MyType;
+myPtr = new MyType(32.0, 17);
+
+
+48. Defining Pointer Types
+typedef int* IntPtr;
+IntPtr p;
+
+
+49. Dynamic Arrrays
+double* d = new double[10];
+delete [] d;
+
+
+50. Multidimensional Dynamic Array
+typedef int* IntArrayPtr;
+IntArrayPtr *m = new IntArrayPtr[3];
+for (int i= 0; i<3; i++)
+	m[i] = new int[4];
+
+for ( i= 0; i< 3; i++)
+	delete [ ] m[i]; //delete the arrays of 4 intArrayPtr's
+delete [ ] m;
+
+
+51. destructor
+~StringVar(); <- 선언
+StringVar::~StringVar()
+{
+	delete [] value;
+}
+
+
+52. copy constructor
+StringVar::StringVar(const StringVar& stringObject): maxLength(stringObject.length())
+{
+	value = new char[maxLength+ 1];
+	strcpy(value, stringObject.value);
+}
+=을 쓰면 copy constructor가 쓰인다.
+call by value로 호출할 때 copy constructor로 새로운 class를 생성해주므로,
+함수가 끝나고 destructor를 호출할 때 기존의 class를 지우지 않고 새롭게 생성된 class를 지우게 된다.
+
+
+53. operator overloading = 
+MyString = MyString을 할 경우 delete를 먼저하면 문제가 발생한다.
+void StringVar::operator= (const StringVar& rightSide)
+{
+	int newLength= strlen(rightSide.value);
+	if (newLength> maxLength)//delete value only
+	{
+		delete [ ] value;            // if more space is needed
+		maxLength= newLength;
+		value = new char[maxLength+ 1];
+	}
+	for (int I = 0; i< newLength; i++)
+		value[i] = rightSide.value[i];
+	value[newLength] = '\0';
+}
+******************************************************************************************
+
+
+10주차
+******************************************************************************************
+54. namespace
+namespace is a collection of name
+name conflicts: namespace에 똑같은 함수가 정의되어 있을 경우 using namespace를 쓰면 곤란해짐
+
+- creating a namespace
+namespace Name_Space_Name
+{
+	Some_Code
+}
+using namespace Name_Space_Name;로 함축 가능
+
+- using namespse는 괄호 안에서만 적용된다.
+int main( ){
+	{
+		using namespace my_space;
+		greeting( );
+	}
+}
+
+- using ns1::fun1;이라고 쓰면 나중에 fun1을 호출 했을 때, ns1안의 fun1을 호출한다.
+
+- nested namespace
+int x = 2;
+namespace outer_space{
+	int x = 1;
+	int y = 2;
+	namespace inner_space{ 
+		int y = x;		//바로 윗단계의 x인 1을가리키게 된다.
+	}
+}
+
+
+55. Linked List, stack, queue를 namespace로 구현하면 좋음
+
+
+56. queue구현방법
+linked list를 따로 구현하고
+
+constructor: front와 back ptr에 NULL을 넣고, size=0으로 한다. -> pointer는 NULL
+
+destructor: next_node를 front로 지정하고 하나씩 지운다.
+
+push: linked list node를 하나 만들고 size = 0일때와 아닐 때로 나눠서 써준다.
+size는 0일 때 front_ptr = new_node가 되고 아닐 경우 back_ptr->next = new node가 된다.
+back_ptr을 new_node로 설정하고 사이즈를 늘려줌
+
+pop: 결과값은 front ptr의 data이고 front ptr을 지우고 다음노드로 link한다.
+지울 때 delete delte_ptr사용, 그후 size감소시킴
+
+******************************************************************************************
+
+11주차
+******************************************************************************************
+57. Inheritance
+class HourlyEmployee: public Employee
+{
+	public: ..
+	private: ..
+}
+
+부모의 private접근 불가능, protected로 해놓으면 접근 가능
+
+HourlyEmployee::HourlyEmployee: Employee( ),wageRate( 0),hours( )
+{ //no code needed }
+부모의 constructor를 호출하여 사용 가능하다.
+
+
+58. overriding vs overloading
+overloading: 두 함수가 같은 이름을 갖고 있으나 인자의 수나 자료형이 다른 경우를 말한다.
+overriding: 상위 클래스의 메서드와 이름과 용례(signature)가 같은 함수를 하위 클래스에 재정의하는 것을 말한다.
+
+
+59. 상속되지 않는것들
+Destructors
+Copy constructors
+Assignment operator
+destructor는 상속 받은 애부터 차례로 호출
+
+
+60. virtual functions
+class includes a method to draw figures, but the Figure class cannot know how to draw the figures,
+virtual functions are used
+
+late binding
+
+ex1)
+class Base
+{
+public:
+    void SimpleFunc() { cout << "기초클래스" << endl; }
+};
+ 
+class Derived :public Base
+{
+public:
+    void SimpleFunc() { cout << "유도클래스" << endl; }
+};
+ 
+int main()
+{
+    Base *b = new Derived;
+    b->SimpleFunc(); 
+    return 0;
+}
+main함수에서 base의 simplefunc이 호출된다.
+하지만 Base의 void SimpleFunc()앞에 virtual을 붙이게 되면 derived의 simplefunc가 호출된다.
+(derived의 simplefunc에도 virtual붙여도 된다.)
+
+******************************************************************************************
+
+
+12주차
+******************************************************************************************
+61. templates
+template<class T>
+void swapValues(T& v1, T& v2)
+{
+	T temp;
+	temp = v1;
+	v1 = v2;
+	v = temp;
+}
+
+
+62. templates with multiple parameter
+template<class T1, class T2>
+test(T1 a, T2 b){
+	std::cout<<a<<std::endl;
+	std::cout<<b<<std::endl;
+}
+
+
+63. a class template
+template <class T>
+class Pair
+{
+public:
+	Pair( );
+	Pair( T firstValue, T secondValue);
+	void setElement(int position, Tvalue);
+	T getElement(int position) const;
+private:
+	T first;
+	T second;
+};
+Pair<int> score;
+Pair<char> seats;로 선언
+
+typedef Pair<int> PairOfInt;
+PairOfInt pair1, pair2;로 가능
+
+******************************************************************************************
+
+
+13주차
+******************************************************************************************
+64. iterator
+c.begin(): returns an iterator pointing to the first element of container c
+c.end(): returns an iterator pointing past the first element of container c
+
+example)
+vector<int> container;
+vector<int>::iterator p;
+for(p = container.begin(); p != container.end(); p++)
+	cout << *p << " ";
+
+forward iterators: p++
+Bidirectional iterator: p--
+random access iterators: p+2
+
+
+65. costant and mutable iterators 
+using std::vector<int>::const_iterator;
+const_iterator cp = v.begin( );
+*cp = something; // illegal
+
+using std::vector<int>::iterator;
+iterator p = v.begin( );
+*p = something;// OK
+
+
+66. using auto
+vector<int>::iterator p = v.begin();
+auto p = v.begin();
+
+
+67. reverse iterators
+reverse_iterator rp;
+for(rp= c.rbegin( ); rp!= c.rend( );rp++)
+	process_item_at(rp);
+
+
+68. Sequential Containers
+list, vector, deque(std namespace)
+stack, queue
+
+c.empty( ) // true if there are no entries in c
+c.size( ) const; // number of  entries in container c
+c = v; //replace contents of c with contents of v
+swap, push_back, begin, end, rbegin, rend, front, back, insert, erase
+clear, c1==c2, push_front
+
+
+69. std::set, 값을 한개만 저장, default로 오름차순으로 정렬
+#include <set>
+std::set<T,  OrderRelation> s;
+
+
+70. std::map
+std::map<string, string> planets;
+<key, value>로 dict처럼 구성
+
+
+71. use auto
+std::map<int, string> personIDs= { {1,"Walt"}, {2,"Kenrick"}};
+std::set<string> colors = {"red","green","blue"};
+for(auto p : personIDs)
+	cout<< p.first<< " " << p.second<< endl;
+for(auto p : colors)
+	cout<< p << " ";
+
+
+72. std::array
+std::array<int, 4> a = {1, 2, 3, 4};
+a[i]로 접근 가능
+
+No harmful effects accessing outside the boundaries of the array
+a[100] = 10; // Ignored, no memory write
+
+
+73. Regular Expressions
+#include <regex>
+using std::regex;
+
+string phonePattern= R"(\d{3}-\d{4}-\d{4})";
+string twoWordPattern= R"(\w+\s\w+)";
+
+
+74. thread, mutex
+#include <mutex>
+using std::mutex;
+mutex globalLock;
+void func(int a)
+{
+	globalLock.lock();x
+	cout<< "Hello World: " << a << endl;
+	globalLock.unlock();
+}
+
+int main()
+{
+	thread t1(func, 10);  // Runs func(10) in a thread
+	thread t2(func, 20);  // Runs func(20) in a thread
+	t1.join();  // Waits for thread 1 to finish
+	t2.join();  // Waits for thread 2 to finish
+}
+
+
+75. bfs는 queue, dfs는 stack
+
+
+******************************************************************************************
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
